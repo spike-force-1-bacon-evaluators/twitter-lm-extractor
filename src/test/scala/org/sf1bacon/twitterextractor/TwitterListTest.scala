@@ -12,15 +12,12 @@ class TwitterListTest extends FunSuite {
   val list = TwitterList(rest, "team", "twitterapi")
 
   test("Twitter list data fetched.") {
-    try {
-      TwitterList(rest, "team", "twitterapi")
-    } catch {
-      case _: Throwable => fail("Could not fetch data. Exception thrown.")
-    }
+    assert(list.data.users.nonEmpty)
   }
 
   test("Usernames correctly extracted."){
     assert(list.usernames.contains("twitterapi"))
   }
 
+  TwitterAuth.terminate()
 }

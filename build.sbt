@@ -29,3 +29,5 @@ libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.7.22"
 // https://mvnrepository.com/artifact/org.scalatest/scalatest_2.11
 libraryDependencies += "org.scalatest" % "scalatest_2.11" % "3.0.1"
 
+// https://mvnrepository.com/artifact/org.neo4j.driver/neo4j-java-driver
+libraryDependencies += "org.neo4j.driver" % "neo4j-java-driver" % "1.1.1"

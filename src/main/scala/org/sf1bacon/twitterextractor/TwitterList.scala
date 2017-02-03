@@ -1,7 +1,7 @@
 package org.sf1bacon.twitterextractor
 
 import com.danielasfregola.twitter4s.TwitterRestClient
-import com.danielasfregola.twitter4s.entities.Users
+import com.danielasfregola.twitter4s.entities.{User, Users}
 
 import scala.concurrent._
 import scala.concurrent.duration._
@@ -11,30 +11,33 @@ import scala.concurrent.duration._
   */
 case class TwitterList(client: TwitterRestClient, list: String, username: String) {
 
-  // This is blocking, but we really need to get this before moving on.
   val data: Users = {
 
     val maxListElements = 5000
 
-    Await.result(
-      client.listMembersBySlugAndOwnerName(
-        slug = list,
-        owner_screen_name = username,
-        count = maxListElements,
-        cursor = -1,
-        include_entities = true,
-        skip_status = false
-      ), atMost = 15.seconds)
+    // This is blocking, but we really need to get this before moving on.
+    Await.result(client.listMembersBySlugAndOwnerName(
+      slug = list,
+      owner_screen_name = username,
+      count = maxListElements,
+      cursor = -1,
+      include_entities = true,
+      skip_status = false
+    ), atMost = 15.seconds)
+
   }
+
+  // simplify access to users
+  val users: Seq[User] = data.users
 
   def printList(): Unit = {
     println("---------------------+---------------------")
     println("       name          |       username      ")
     println("---------------------+---------------------")
-    data.users.foreach(u => println(f"${u.name}%-20s | ${u.screen_name}%-20s"))
+    users.foreach(u => println(f"${u.name}%-20s | ${u.screen_name}%-20s"))
     println("---------------------+---------------------")
   }
 
-  def usernames: List[String] = data.users.map(u => u.screen_name).toList
+  def usernames: List[String] = users.map(u => u.screen_name).toList
 
 }
