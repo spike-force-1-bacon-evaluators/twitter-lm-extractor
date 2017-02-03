@@ -16,4 +16,7 @@ docker: Dockerfile ## Build the docker image
 	$(DOCKER) build -t $(BUILDNAME) .
 
 docker-test: docker ## Run tests inside the container
-	$(DOCKER) run -v $(HOME)/.ivy2:/root/.ivy2 -v $(HOME)/.sbt:/root/.sbt -it $(BUILDNAME) bash -c "sbt test"
+	$(DOCKER) run -v $(HOME)/.ivy2:/root/.ivy2 -v $(HOME)/.sbt:/root/.sbt -it $(BUILDNAME) bash -c "sbt clean test"
+
+docker-coverage: docker ## Run coverage tests inside the container
+	$(DOCKER) run -v $(HOME)/.ivy2:/root/.ivy2 -v $(HOME)/.sbt:/root/.sbt -it $(BUILDNAME) bash -c "sbt clean coverage test && sbt coverageReport"

@@ -13,4 +13,4 @@ COPY src /root/twitter-lm-extractor/src
 COPY project /root/twitter-lm-extractor/project
 
 # run tests
-CMD ["sbt", "test"]
+CMD ["sbt", "clean", "test"]
