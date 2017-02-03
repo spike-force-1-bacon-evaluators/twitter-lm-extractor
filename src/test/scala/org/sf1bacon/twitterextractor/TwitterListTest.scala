@@ -1,6 +1,5 @@
 package org.sf1bacon.twitterextractor
 
-import com.danielasfregola.twitter4s.TwitterRestClient
 import org.scalatest.FunSuite
 
 /**
@@ -8,11 +7,10 @@ import org.scalatest.FunSuite
   */
 class TwitterListTest extends FunSuite {
 
-  val rest: TwitterRestClient = TwitterAuth.rest()
-  val list = TwitterList(rest, "team", "twitterapi")
+  val list = TwitterList("team", "twitterapi")
 
   test("Twitter list data fetched.") {
-    assert(list.data.users.nonEmpty)
+    assert(list.users.nonEmpty)
   }
 
   test("Usernames correctly extracted."){

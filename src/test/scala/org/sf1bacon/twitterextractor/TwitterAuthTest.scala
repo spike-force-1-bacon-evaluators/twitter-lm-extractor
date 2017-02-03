@@ -10,8 +10,7 @@ import scala.concurrent.duration._
 class TwitterAuthTest extends FunSuite {
 
   test("Twitter REST API autentication working") {
-    val rest = TwitterAuth.rest()
-    assert( Await.result(rest.verifyCredentials(),15.seconds).screen_name == "filipe_agapito")
+    assert( Await.result(TwitterAuth.rest.verifyCredentials(),15.seconds).screen_name == "filipe_agapito")
   }
 
 }

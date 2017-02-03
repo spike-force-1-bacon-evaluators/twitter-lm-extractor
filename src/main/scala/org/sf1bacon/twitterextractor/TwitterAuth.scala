@@ -14,7 +14,7 @@ object TwitterAuth {
 
   val system: ActorSystem = ActorSystem("TwitterSystem")
 
-  def rest(): TwitterRestClient = {
+  val rest: TwitterRestClient = {
     val config = ConfigFactory.load("twitter.conf")
     val myConsumerKey = config.getString("twitter.consumer.key")
     val myConsumerSecret = config.getString("twitter.consumer.secret")

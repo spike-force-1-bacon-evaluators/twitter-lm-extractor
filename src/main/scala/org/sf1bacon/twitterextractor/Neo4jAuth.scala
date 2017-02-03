@@ -14,7 +14,7 @@ object Neo4jAuth {
   val username: String = config.getString("neo4j.username")
   val password: String = config.getString("neo4j.password")
 
-  def session(): Session = {
+  val session: Session = {
 
     val tokens = AuthTokens.basic(s"$username", s"$password")
 

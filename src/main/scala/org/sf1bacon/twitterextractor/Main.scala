@@ -5,21 +5,17 @@ package org.sf1bacon.twitterextractor
   */
 object Main extends App {
 
-  // open sessions
-  val neo4j = Neo4jAuth.session()
-  val twitter = TwitterAuth.rest()
-
   // get data from twitter restaurant list
-  val restaurants = TwitterList(twitter, "london-restaurants", "londoneating").users.map(Restaurant(_))
+  val restaurants = TwitterList("london-restaurants", "londoneating").users.map(Restaurant(_))
   println(s"[INFO] Got data for ${restaurants.size} restaurants.")
 
   // insert in neo4j db
-  val insertResult = restaurants.map(_.cypherString).foreach(neo4j.run)
-  val searchResult = neo4j.run("""MATCH (t:Restaurant) RETURN t""")
+  val insertResult = restaurants.foreach(_.neo4jMerge)
+  val searchResult = Neo4jAuth.session.run("""MATCH (t:Restaurant) RETURN t""")
   println(s"[INFO] There are now ${searchResult.list.size} restaurants in neo4j database.")
 
   // cleanup
-  neo4j.close()
+  Neo4jAuth.session.close()
   TwitterAuth.terminate()
 }
 
