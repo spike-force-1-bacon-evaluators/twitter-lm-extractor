@@ -10,12 +10,10 @@ class TwitterListTest extends FunSuite {
   val list = TwitterList("team", "twitterapi")
 
   test("Twitter list data fetched.") {
-    assert(list.users.nonEmpty)
+    assert(list.members.nonEmpty)
   }
 
   test("Usernames correctly extracted."){
     assert(list.usernames.contains("twitterapi"))
   }
-
-  TwitterAuth.terminate()
 }

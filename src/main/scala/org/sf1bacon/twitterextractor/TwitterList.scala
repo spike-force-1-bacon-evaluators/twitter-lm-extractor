@@ -27,16 +27,15 @@ case class TwitterList(list: String, username: String) {
   }
 
   // simplify access to users
-  val users: Seq[User] = data.users
+  val members: Seq[User] = data.users
 
   def printList(): Unit = {
     println("---------------------+---------------------")
     println("       name          |       username      ")
     println("---------------------+---------------------")
-    users.foreach(u => println(f"${u.name}%-20s | ${u.screen_name}%-20s"))
+    members.foreach(u => println(f"${u.name}%-20s | ${u.screen_name}%-20s"))
     println("---------------------+---------------------")
   }
 
-  def usernames: List[String] = users.map(u => u.screen_name).toList
-
+  def usernames: List[String] = members.map(u => u.screen_name).toList
 }
