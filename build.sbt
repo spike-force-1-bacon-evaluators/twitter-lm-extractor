@@ -6,6 +6,9 @@ scalaVersion := "2.11.8"
 
 resolvers += Resolver.sonatypeRepo("releases")
 
+// make scalac print out additional info
+scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
+
 // Twitter4Scala API
 libraryDependencies += "com.danielasfregola" %% "twitter4s" % "4.2"
 

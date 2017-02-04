@@ -5,7 +5,6 @@ import com.danielasfregola.twitter4s.entities.Users
 
 import scala.concurrent._
 import scala.concurrent.duration._
-import ExecutionContext.Implicits.global
 
 /**
   * Created by agapito on 02/02/2017.
@@ -21,7 +20,7 @@ case class TwitterList(client: TwitterRestClient, list: String, username: String
       cursor = -1,
       include_entities = true,
       skip_status = false
-    ), 15 seconds)
+    ), atMost = 15.seconds)
 
   def printList(): Unit = {
     println("---------------------+---------------------")
