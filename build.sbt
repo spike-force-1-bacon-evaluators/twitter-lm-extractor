@@ -6,6 +6,13 @@ scalaVersion := "2.11.8"
 
 resolvers += Resolver.sonatypeRepo("releases")
 
+// set scalastyle config location
+org.scalastyle.sbt.ScalastylePlugin.projectSettings ++
+  Seq(
+    org.scalastyle.sbt.ScalastylePlugin.scalastyleConfig in Compile := file("project/scalastyle-config.xml"),
+    org.scalastyle.sbt.ScalastylePlugin.scalastyleConfig in Test := file("project/scalastyle-config.xml")
+  )
+
 // make scalac print out additional info
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
 

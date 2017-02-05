@@ -6,7 +6,7 @@ package org.sf1bacon.twitterextractor
   */
 object Main extends App {
 
-  val restClient = TwitterAuth.rest
+  val restClient = TwitterAuth.rest()
 
   val restaurants = TwitterList(restClient, "london-restaurants", "londoneating")
   val handles =  restaurants.usernames

@@ -12,15 +12,20 @@ import scala.concurrent.duration._
 case class TwitterList(client: TwitterRestClient, list: String, username: String) {
 
   // This is blocking, but we really need to get this before moving on.
-  val data: Users = Await.result(
-    client.listMembersBySlugAndOwnerName(
-      slug = list,
-      owner_screen_name = username,
-      count = 5000,
-      cursor = -1,
-      include_entities = true,
-      skip_status = false
-    ), atMost = 15.seconds)
+  val data: Users = {
+
+    val maxListElements = 5000
+
+    Await.result(
+      client.listMembersBySlugAndOwnerName(
+        slug = list,
+        owner_screen_name = username,
+        count = maxListElements,
+        cursor = -1,
+        include_entities = true,
+        skip_status = false
+      ), atMost = 15.seconds)
+  }
 
   def printList(): Unit = {
     println("---------------------+---------------------")
