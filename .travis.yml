@@ -1,0 +1,20 @@
+---
+sudo: false
+
+services:
+  - docker
+
+language: scala
+
+scala: tip
+
+script:
+  - ./scripts/twitter.sh
+  - docker build -t twitter-lm-extractor .
+  - docker run --rm --name twitter-lm-extractor twitter-lm-extractor
+
+notifications:
+  on_success: always
+  email: false
+  slack: sf1-bacon:fXNEjRShCTHmorluLIpRPqGa
+...
