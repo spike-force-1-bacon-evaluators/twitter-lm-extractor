@@ -8,6 +8,8 @@ import org.scalatest.FunSuite
   */
 class Neo4jAuthTest extends FunSuite {
 
+  // disable integration tests for now
+  /***
   test(s"Neo4J server authentication working (bolt://${Neo4jAuth.host}:${Neo4jAuth.boltport}).") {
     try {
       val neo4j = Neo4jAuth.session()
@@ -27,5 +29,6 @@ class Neo4jAuthTest extends FunSuite {
     val del = neo4j.run("MATCH (t:ScalaTest) DETACH DELETE t")
     neo4j.close()
   }
+  ***/
 
 }

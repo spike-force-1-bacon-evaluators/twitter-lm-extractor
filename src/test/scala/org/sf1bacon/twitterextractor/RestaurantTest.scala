@@ -8,6 +8,8 @@ import org.scalatest.FunSuite
   */
 class RestaurantTest extends FunSuite {
 
+  // disable integration tests for now
+  /***
   test(s"Can create restaurant nodes") {
     val neo4j = Neo4jAuth.session()
     val testRestaurant = Restaurant("ScalaTest", "ScalaTest", "", 0, 0, "", verified = false)
@@ -19,5 +21,6 @@ class RestaurantTest extends FunSuite {
 
     val del = neo4j.run("""MATCH (t:Restaurant {name:"ScalaTest"}) DETACH DELETE t""")
   }
+  ***/
 
 }
