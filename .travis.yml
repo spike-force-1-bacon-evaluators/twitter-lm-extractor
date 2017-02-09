@@ -10,6 +10,7 @@ scala: tip
 
 script:
   - ./scripts/twitter.sh
+  - ./scripts/neo4j.sh
   - docker build -t twitter-lm-extractor .
   - docker run --rm --name twitter-lm-extractor twitter-lm-extractor
 
