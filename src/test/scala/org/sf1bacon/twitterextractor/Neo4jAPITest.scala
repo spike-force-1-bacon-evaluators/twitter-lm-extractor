@@ -101,7 +101,7 @@ class Neo4jAPITest extends FunSuite {
       s"""MERGE (u:User {id: "testuser",
          |               name: "TestUser"})
          |MERGE (t:Tweet {id: "testuser_Mon Feb 01 10:20:30 $timeZone 2010",
-         |                text: "Tweet! Tweet!",
+         |                text: "Tweet Tweet",
          |                date: "Mon Feb 01 10:20:30 $timeZone 2010",
          |                written_by: "testuser"})
          |MERGE (d:Date {id: "2010-02-01"})

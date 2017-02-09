@@ -67,7 +67,7 @@ object TwitterAPI {
       cursor = -1,
       include_entities = true,
       skip_status = false
-    ), atMost = 30.seconds).users.toList
+    ), atMost = 30.seconds).users.toList.sortBy(_.screen_name.toLowerCase)
   }
 
 }
