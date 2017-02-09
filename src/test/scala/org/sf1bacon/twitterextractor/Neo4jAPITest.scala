@@ -1,6 +1,7 @@
 package org.sf1bacon.twitterextractor
 
 import java.text.SimpleDateFormat
+import java.util.{Calendar, TimeZone}
 
 import com.danielasfregola.twitter4s.entities.{ProfileImage, Tweet, User}
 import org.neo4j.driver.v1.StatementResult
@@ -58,7 +59,11 @@ class Neo4jAPITest extends FunSuite {
 
   test("Mention cypher query created correctly") {
     val timeString = "01-02-2010 10:20:30"
-    val testTime = new SimpleDateFormat("d-MM-yyyy HH:mm:ss").parse(timeString)
+
+    // TODO: Fix SimpleDateFormat time zone
+    val timeZone = Calendar.getInstance().getTimeZone.getDisplayName(false, TimeZone.SHORT)
+
+    val testTime= new SimpleDateFormat("d-MM-yyyy HH:mm:ss").parse(timeString)
     val testProfileImage = ProfileImage(mini = "", normal = "", bigger = "", default = "")
 
     // scalastyle:off magic.number
@@ -91,12 +96,13 @@ class Neo4jAPITest extends FunSuite {
 
     val cypherTest = Neo4jAPI.cypherMention(testRestaurant, testTweet)
 
+    //FIXME: Remove timeZone in this string
     val correctResult =
       s"""MERGE (u:User {id: "testuser",
          |               name: "TestUser"})
-         |MERGE (t:Tweet {id: "testuser_Mon Feb 01 10:20:30 WET 2010",
+         |MERGE (t:Tweet {id: "testuser_Mon Feb 01 10:20:30 $timeZone 2010",
          |                text: "Tweet! Tweet!",
-         |                date: "Mon Feb 01 10:20:30 WET 2010",
+         |                date: "Mon Feb 01 10:20:30 $timeZone 2010",
          |                written_by: "testuser"})
          |MERGE (d:Date {id: "2010-02-01"})
          |MERGE (r:Restaurant {id: "scalatest"})
