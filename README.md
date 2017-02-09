@@ -8,4 +8,3 @@ make test                    Run unit tests
 ```
 
 `twitter.conf` and `neo4j.conf` must be placed inside `src/main/resources/`
-b
