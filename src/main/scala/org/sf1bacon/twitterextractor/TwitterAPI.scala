@@ -5,6 +5,7 @@ import com.danielasfregola.twitter4s.TwitterRestClient
 import com.danielasfregola.twitter4s.entities.{AccessToken, ConsumerToken, StatusSearch, User}
 import com.typesafe.config.ConfigFactory
 
+import scala.annotation.tailrec
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
 import scala.util.{Failure, Success, Try}
@@ -36,6 +37,7 @@ object TwitterAPI {
 
   // scalastyle:off magic.number
   // The max results returned by the search entrypoint on the REST API is 100
+  @tailrec
   def getMentions(user: String, maxTweets: Int = 100): StatusSearch = {
     // scalastyle:on magic.number
 

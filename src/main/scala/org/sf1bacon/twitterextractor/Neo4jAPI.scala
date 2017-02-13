@@ -28,11 +28,13 @@ object Neo4jAPI {
   def cypherMention(restaurant: Restaurant, tweet: Tweet): String = {
 
     val user_username = if (tweet.user.isDefined) sanitize(tweet.user.get.screen_name) else "bacon_undefined_username"
+    val user_id = if (tweet.user.isDefined) tweet.user.get.id_str else "bacon_undefined_id"
     val user_name = if (tweet.user.isDefined) sanitize(tweet.user.get.name) else "bacon_undefined_name"
 
-    s"""MERGE (u:User {id: "$user_username",
+    s"""MERGE (u:User {id: "${user_username}_${user_id}",
+       |               username: "$user_username",
        |               name: "$user_name"})
-       |MERGE (t:Tweet {id: "${user_username}_${tweet.created_at}",
+       |MERGE (t:Tweet {id: "${user_username}_${tweet.created_at}_${tweet.id}",
        |                text: "${sanitize(tweet.text)}",
        |                date: "${tweet.created_at}",
        |                written_by: "$user_username"})
