@@ -98,9 +98,11 @@ class Neo4jAPITest extends FunSuite {
 
     //FIXME: Remove timeZone in this string
     val correctResult =
-      s"""MERGE (u:User {id: "testuser_4",
-         |               username: "testuser",
-         |               name: "TestUser"})
+      s"""MERGE (u:User {id: "testuser_4"})
+         |ON CREATE SET  u.username: "testuser",
+         |               u.name: "TestUser"
+         |ON MATCH SET  u.username: "testuser",
+         |              u.name: "TestUser"
          |MERGE (t:Tweet {id: "testuser_Mon Feb 01 10:20:30 $timeZone 2010_1",
          |                text: "Tweet Tweet",
          |                date: "Mon Feb 01 10:20:30 $timeZone 2010",

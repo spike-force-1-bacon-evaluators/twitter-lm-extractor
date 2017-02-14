@@ -31,9 +31,11 @@ object Neo4jAPI {
     val user_id = if (tweet.user.isDefined) tweet.user.get.id_str else "bacon_undefined_id"
     val user_name = if (tweet.user.isDefined) sanitize(tweet.user.get.name) else "bacon_undefined_name"
 
-    s"""MERGE (u:User {id: "${user_username}_${user_id}",
-       |               username: "$user_username",
-       |               name: "$user_name"})
+    s"""MERGE (u:User {id: "${user_username}_${user_id}"})
+       |ON CREATE SET  u.username: "$user_username",
+       |               u.name: "$user_name"
+       |ON MATCH SET  u.username: "$user_username",
+       |              u.name: "$user_name"
        |MERGE (t:Tweet {id: "${user_username}_${tweet.created_at}_${tweet.id}",
        |                text: "${sanitize(tweet.text)}",
        |                date: "${tweet.created_at}",
