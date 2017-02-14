@@ -8,6 +8,10 @@ language: scala
 
 scala: tip
 
+branches:
+  except:
+  - master
+
 script:
   - ./scripts/twitter.sh
   - ./scripts/neo4j.sh
