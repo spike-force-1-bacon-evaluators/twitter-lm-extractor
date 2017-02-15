@@ -15,6 +15,7 @@ branches:
 script:
   - ./scripts/twitter.sh
   - ./scripts/neo4j.sh
+  - ./scripts/google.sh
   - docker build -t twitter-lm-extractor .
   - docker run --rm --name twitter-lm-extractor twitter-lm-extractor
 

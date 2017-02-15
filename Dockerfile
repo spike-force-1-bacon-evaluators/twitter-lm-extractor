@@ -4,4 +4,4 @@ COPY . /twitter-lm-extractor/
 
 WORKDIR /twitter-lm-extractor
 
-ENTRYPOINT ["sbt", "-Dsbt.log.noformat=true", "clean", "scalastyle", "test:scalastyle", "test"]
+ENTRYPOINT ["sbt", "-Djava.util.logging.config.file=./src/main/resources/logging.properties", "-Dsbt.log.noformat=true", "clean", "scalastyle", "test:scalastyle", "test"]

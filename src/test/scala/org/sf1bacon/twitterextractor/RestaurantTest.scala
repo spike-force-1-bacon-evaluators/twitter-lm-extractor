@@ -22,7 +22,7 @@ class RestaurantTest extends FunSuite {
       followers_count = 2,
       friends_count = 3,
       id = 4,
-      id_str = "",
+      id_str = "4_str",
       lang = "",
       listed_count = 5,
       name = "ScalaTest",
@@ -46,13 +46,16 @@ class RestaurantTest extends FunSuite {
     // scalastyle:on magic.number
 
     assert(
-        testRestaurant.name == "ScalaTest" &&
+      testRestaurant.name == "ScalaTest" &&
         testRestaurant.username == "scalatest" &&
         testRestaurant.location == "here" &&
         testRestaurant.tweets == 6 &&
         testRestaurant.followers == 2 &&
         testRestaurant.url == "http://localhost" &&
-        ! testRestaurant.verified
+        !testRestaurant.verified &&
+        testRestaurant.latlong == (0.0, 0.0) &&
+        testRestaurant.googleID == "noID" &&
+        testRestaurant.twitterID == "4_str"
     )
   }
 }

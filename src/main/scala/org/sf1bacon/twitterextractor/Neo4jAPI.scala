@@ -49,19 +49,29 @@ object Neo4jAPI {
   }
 
   def cypherRestaurant(restaurant: Restaurant, modtime: String): String =
-    s"""MERGE (r:Restaurant { id: "${restaurant.username}", name: "${restaurant.name}" })
+    s"""MERGE (r:Restaurant { id: "${restaurant.username}" })
        |ON CREATE SET r.followers = ${restaurant.followers},
+       |              r.name = "${restaurant.name}",
        |              r.tweets = ${restaurant.tweets},
        |              r.verified = ${restaurant.verified},
        |              r.location = "${restaurant.location}",
        |              r.url = "${restaurant.url}",
-       |              r.added = "$modtime"
+       |              r.added = "$modtime",
+       |              r.googleID = "${restaurant.googleID}",
+       |              r.twitterID = "${restaurant.twitterID}",
+       |              r.lat = ${restaurant.latlong._1},
+       |              r.lng = ${restaurant.latlong._2}
        |ON MATCH SET r.followers = ${restaurant.followers},
+       |             r.name = "${restaurant.name}",
        |             r.tweets = ${restaurant.tweets},
        |             r.verified = ${restaurant.verified},
        |             r.location = "${restaurant.location}",
        |             r.url = "${restaurant.url}",
-       |             r.updated = "$modtime"
+       |             r.updated = "$modtime",
+       |             r.googleID = "${restaurant.googleID}",
+       |             r.twitterID = "${restaurant.twitterID}",
+       |             r.lat = ${restaurant.latlong._1},
+       |             r.lng = ${restaurant.latlong._2}
        |""".stripMargin
 
 

@@ -12,47 +12,56 @@ import org.scalatest.FunSuite
   */
 class Neo4jAPITest extends FunSuite {
 
-  // disable integration tests for now
-  /***
-  test(s"Neo4j server authentication working (bolt://${Neo4jAPI.host}:${Neo4jAPI.boltport}).") {
-    try {
-      Neo4jAPI.session.run("""MATCH (n) RETURN count(n)""")
-    } catch {
-      case _: Throwable => fail(s"Could not connect to neo4j server. Exception thrown.")
-    }
-  }
-
-  test(s"Can run Neo4j queries") {
-    Neo4jAPI.session.run("MERGE (t:ScalaTest)")
-    val test: StatementResult = Neo4jAPI.session.run("MATCH (t:ScalaTest) RETURN t")
-
-    assert(!test.list.isEmpty)
-
-    Neo4jAPI.session.run("MATCH (t:ScalaTest) DETACH DELETE t")
-  }
-  ***/
+  ///// disable integration tests for now
+  //  test(s"Neo4j server authentication working (bolt://${Neo4jAPI.host}:${Neo4jAPI.boltport}).") {
+  //    try {
+  //      Neo4jAPI.session.run("""MATCH (n) RETURN count(n)""")
+  //    } catch {
+  //      case _: Throwable => fail(s"Could not connect to neo4j server. Exception thrown.")
+  //    }
+  //  }
+  //
+  //  test(s"Can run Neo4j queries") {
+  //    Neo4jAPI.session.run("MERGE (t:ScalaTest)")
+  //    val test: StatementResult = Neo4jAPI.session.run("MATCH (t:ScalaTest) RETURN t")
+  //
+  //    assert(!test.list.isEmpty)
+  //
+  //  Neo4jAPI.session.run("MATCH (t:ScalaTest) DETACH DELETE t")
+  // }
 
   test("Restaurant cypher query created correctly") {
     // scalastyle:off magic.number
-    val testRestaurant = Restaurant("ScalaTest", "scalatest", "here", 1, 10, "http://localhost", verified = false)
+    val testRestaurant = new Restaurant("ScalaTest", "scalatest", "here", 1, 10,
+      "http://localhost", verified = false, (1.0, 2.0), "googleID", "twitterID")
     // scalastyle:on magic.number
 
     val testTime = Utils.timestamp
     val cypherTest = Neo4jAPI.cypherRestaurant(testRestaurant, testTime)
     val correctResult =
-      s"""MERGE (r:Restaurant { id: "scalatest", name: "ScalaTest" })
+      s"""MERGE (r:Restaurant { id: "scalatest" })
          |ON CREATE SET r.followers = 10,
+         |              r.name = "ScalaTest",
          |              r.tweets = 1,
          |              r.verified = false,
          |              r.location = "here",
          |              r.url = "http://localhost",
-         |              r.added = "$testTime"
+         |              r.added = "$testTime",
+         |              r.googleID = "googleID",
+         |              r.twitterID = "twitterID",
+         |              r.lat = 1.0,
+         |              r.lng = 2.0
          |ON MATCH SET r.followers = 10,
+         |             r.name = "ScalaTest",
          |             r.tweets = 1,
          |             r.verified = false,
          |             r.location = "here",
          |             r.url = "http://localhost",
-         |             r.updated = "$testTime"
+         |             r.updated = "$testTime",
+         |             r.googleID = "googleID",
+         |             r.twitterID = "twitterID",
+         |             r.lat = 1.0,
+         |             r.lng = 2.0
          |""".stripMargin
     assert(cypherTest == correctResult)
   }
@@ -63,7 +72,7 @@ class Neo4jAPITest extends FunSuite {
     // TODO: Fix SimpleDateFormat time zone
     val timeZone = Calendar.getInstance().getTimeZone.getDisplayName(false, TimeZone.SHORT)
 
-    val testTime= new SimpleDateFormat("d-MM-yyyy HH:mm:ss").parse(timeString)
+    val testTime = new SimpleDateFormat("d-MM-yyyy HH:mm:ss").parse(timeString)
     val testProfileImage = ProfileImage(mini = "", normal = "", bigger = "", default = "")
 
     // scalastyle:off magic.number
@@ -90,7 +99,8 @@ class Neo4jAPITest extends FunSuite {
       statuses_count = 6
     )
 
-    val testRestaurant = Restaurant("ScalaTest", "scalatest", "here", 1, 10, "http://localhost", verified = false)
+    val testRestaurant = new Restaurant("ScalaTest", "scalatest", "here", 1, 10,
+      "http://localhost", verified = false, (1.0, 2.0), "googleID", "twitterID")
     val testTweet = Tweet(created_at = testTime, id = 1, id_str = "", source = "", text = "Tweet! Tweet!", user = Some(testUser))
     // scalastyle:on magic.number
 

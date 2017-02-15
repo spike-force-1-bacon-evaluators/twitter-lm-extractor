@@ -31,3 +31,7 @@ libraryDependencies += "org.scalatest" % "scalatest_2.11" % "3.0.1"
 
 // https://mvnrepository.com/artifact/org.neo4j.driver/neo4j-java-driver
 libraryDependencies += "org.neo4j.driver" % "neo4j-java-driver" % "1.1.1"
+
+// https://mvnrepository.com/artifact/com.google.maps/google-maps-services
+libraryDependencies += "com.google.maps" % "google-maps-services" % "0.1.17"
+
