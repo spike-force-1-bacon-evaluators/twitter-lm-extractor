@@ -8,6 +8,22 @@ import org.sf1bacon.twitterextractor.GoogleAPI._
 /**
   * Created by agapito on 03/02/2017.
   */
+
+/**
+  * The Restaurant class stores the twitter data for each restaurant, along with the corresponding
+  * geographical data extracted from google places.
+  *
+  * @param name      name of the restaurant
+  * @param username  twitter username of the restaurant
+  * @param location  address of the restaurant (as stated in twitter)
+  * @param tweets    number of tweets made by this restaurant
+  * @param followers number of followers this restaurant's twitter account has
+  * @param url       url extracted from twitter
+  * @param verified  twitter account verified status
+  * @param latlong   geographic coordinates of the restaurant (set to (0.0, 0.0) if not found)
+  * @param googleID  google unique placeId matched with this restaurant (set to "noID" if not found)
+  * @param twitterID twitter account unique id
+  */
 case class Restaurant(name: String,
                       username: String,
                       location: String,
@@ -21,7 +37,14 @@ case class Restaurant(name: String,
 
 object Restaurant {
 
-  // set constructor for twitter4s User type
+  /**
+    * Constructor for the [[Restaurant]] class from User. The User information obtained from Twitter is used
+    * to match this user with the corresponding Google Places data, from which the geographical location
+    * and Google places unique id is extracted.
+    *
+    * @param user `com.danielasfregola.twitter4s.entities.User` object
+    * @return new Restaurant
+    */
   def apply(user: User): Restaurant = {
 
     val name = user.name

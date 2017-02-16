@@ -14,10 +14,33 @@ import scala.util.{Failure, Success, Try}
 /**
   * Created by agapito on 03/02/2017.
   */
+
+/**
+  * Interface for the Twitter REST API, using `com.danielasfregola.twitter4s.TwitterRestClient`
+  */
 object TwitterAPI {
 
+  /**
+    * Akka ActorSystem used by the Twitter API
+    */
   val system: ActorSystem = ActorSystem("TwitterSystem")
 
+  /**
+    * TwitterRestClient instance. The configuration is done by reading the `twitter.conf` file,
+    * located in `src/main/resources`. This file should have the following structure:
+    * {{{
+    *   twitter {
+    *     consumer {
+    *         key = "YOUR CONSUMER KEY"
+    *         secret = "YOUR CONSUMER SECRET"
+    *     }
+    *     access {
+    *       key = "YOUR ACCESS KEY"
+    *       secret = "YOUR ACCESS SECRET"
+    *     }
+    *   }
+    * }}}
+    */
   val rest: TwitterRestClient = {
     val config = ConfigFactory.load("twitter.conf")
     val myConsumerKey = config.getString("twitter.consumer.key")
@@ -31,13 +54,26 @@ object TwitterAPI {
     new TwitterRestClient(consumerToken, accessToken)(system)
   }
 
+  /**
+    * Terminate the TwitterRestClient Akka ActorSystem
+    *
+    * @return Future[Terminated] case class
+    */
   def terminate(): Future[Terminated] = {
-   system.terminate()
+    system.terminate()
   }
 
-  // scalastyle:off magic.number
-  // The max results returned by the search entrypoint on the REST API is 100
+  /**
+    * Returns mentions to a Twitter username. Twitter's REST API imposes hard limits on the number of searches.
+    * The function uses `Try[]` to return the results on `Success`. On `Failure` it forces a `Thread.sleep` for
+    * 16 minutes before retrying.
+    *
+    * @param user      username to search for
+    * @param maxTweets the max results returned by the search entrypoint on the REST API (default is 100)
+    * @return `com.danielasfregola.twitter4s.entities.StatusSearch` object with results
+    */
   @tailrec
+  // scalastyle:off magic.number
   def getMentions(user: String, maxTweets: Int = 100): StatusSearch = {
     // scalastyle:on magic.number
 
@@ -58,6 +94,13 @@ object TwitterAPI {
     }
   }
 
+  /**
+    * Extracts the members of a Twitter list
+    *
+    * @param username Twitter username of the list owner
+    * @param list name of the list to extract
+    * @return list of `com.danielasfregola.twitter4s.entities.User` objects for each member of the list
+    */
   def getMembers(username: String, list: String): List[User] = {
 
     val maxListElements = 5000

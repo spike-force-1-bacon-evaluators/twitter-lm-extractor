@@ -9,8 +9,23 @@ import scala.concurrent.duration._
 /**
   * Created by agapito on 09/02/2017.
   */
+
+/**
+  * Interface with the Google Maps Places API
+  */
 object GoogleAPI {
 
+  /**
+    * Set up a Google GeoApiContext instance used for all connections.
+    * This requires a configuration file named `google.conf` placed in `src/main/resources`
+    * with the API key:
+    * {{{
+    *   google {
+    *     key = "YOUR API KEY"
+    *   }
+    * }}}
+    *
+    */
   val gContext: GeoApiContext = {
 
     val config = ConfigFactory.load("google.conf")
@@ -26,6 +41,13 @@ object GoogleAPI {
       .setQueryRateLimit(queriesPerSecond)
   }
 
+  /** Searches for places matching the provided string
+    *
+    * @param text   text decribing the place we search for
+    * @param center center of the search [default is Trafalgar Square (51.508052, -0.128037) ]
+    * @param radius search radius (in meters) on which do perform the search (default is 10 miles == 32000 meters)
+    * @return a google API `PlacesSearchResponse` with the results
+    */
   def searchFor(text: String,
                 // default center is Trafalgar square
                 center: (Double, Double) = (51.508052, -0.128037),
@@ -46,6 +68,14 @@ object GoogleAPI {
     search
   }
 
+  /**
+    * Search for a place maching the provided info
+    *
+    * @param name     name of the place to search for
+    * @param address  adress of the place
+    * @param username Twitter username of the place
+    * @return `Some(PlacesSearchResponse)` if a place was found, and `None` if it is was not
+    */
   def nestedSearch(name: String,
                    address: String,
                    username: String
